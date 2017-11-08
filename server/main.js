@@ -14,10 +14,10 @@ Meteor.startup(() => {
       return "How to reset your password for My Website Name";
     };
 
-    // Email.send({
-    //   from: "My Website Name <noreply@mywebsite.com>",
-    //   to: "nirajgeorgian01@gmail.com",
-    //   subject: "noreply@mywebsite.com | You have received a reply to your enquiry",
-    //   html: "Here is <b>some</b> text!"
-    // });
+    Email.send({
+      from: "My Website Name <noreply@mywebsite.com>",
+      to: "nirajgeorgian01@gmail.com",
+      subject: "noreply@mywebsite.com | You have received a reply to your enquiry",
+      html: "Here is <b>some</b> text!"
+    });
 })
