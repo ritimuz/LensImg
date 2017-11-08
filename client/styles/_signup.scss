@@ -118,10 +118,10 @@ label {
     }
 }
 ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-  color: #111 !important;
+  color: lighten(#111, 30%) !important;
+  font-size: .9rem;
 }
 [type='text'], [type='password'], [type='email'] {
-    color: #111 !important;
 }
 .btn-form {
     padding: .8rem 3rem !important;

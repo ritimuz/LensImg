@@ -4,7 +4,9 @@ import { Link } from 'react-router-dom'
 
 class Navbar extends Component {
     onLogoutClick = (event) => {
-        Meteor.call('account-signup')
+        Meteor.logout(function(err) {
+            console.log(err);
+        })
     }
     render() {
         let Navlink

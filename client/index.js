@@ -10,9 +10,9 @@ import {
 } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.css';
 
-import App from '../imports/components/App'
-import SignupFirst from '../imports/components/user/signup_first'
-import Signin from '../imports/components/user/signin'
+import App from './components/App'
+import SignupFirst from './components/user/signup_first'
+import Signin from './components/user/signin'
 
 Meteor.startup(() => {
     ReactDOM.render(

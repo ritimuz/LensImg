@@ -1,14 +1,13 @@
 import { Meteor } from 'meteor/meteor'
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { withTracker } from 'meteor/react-meteor-data';
-import Profile from '../../collections/index'
+'../../../imports/collections/index'
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
-class SignupFirst extends React.Component {
+class Signin extends Component {
     state = {
         email: '',
-        username: '',
         password: ''
     }
     onInputChange = (event) => {
@@ -17,19 +16,8 @@ class SignupFirst extends React.Component {
         })
     }
     onFormSubmit = (event) => {
-        event.preventDefault()
-        Meteor.call('account-signup', this.state, (err) => {
-            if(err) {
-                console.log("error happened");
-            } else {
-                console.log('reached here');
-                this.setState({
-                    username: '',
-                    email: '',
-                    password: ''
-                })
-            }
-        })
+        event.preventDefault();
+        Meteor.loginWithPassword(this.state.email, this.state.password)
     }
     render() {
         return (
@@ -56,21 +44,17 @@ class SignupFirst extends React.Component {
                             <div className="signup__overlay"></div>
                         </div>
                         <div className='container__child signup__form col-md-6'>
-                            <Form onSubmit={this.onFormSubmit}>
-                                <FormGroup className="form-input-div">
-                                    <Label for='email'>Email</Label>
-                                    <Input type='email' name='email' id='name' className='form-control-lg input-control' onChange={this.onInputChange} value={this.state.email} placeholder='Email'/>
-                                </FormGroup>
+                            <Form onSubmit={this.onFormSubmit} className='signin-form'>
                                 <FormGroup>
-                                    <Label for='username'>Username</Label>
-                                    <Input type='text' name='username' id='username' onChange={this.onInputChange} value={this.state.username} className='form-control-lg input-control' placeholder='Username'/>
+                                    <Label for='email'>Email</Label>
+                                    <Input type='text' name='email' id='email' onChange={this.onInputChange} value={this.state.username} className='form-control-lg input-control' placeholder='Email'/>
                                 </FormGroup>
                                 <FormGroup>
                                     <Label for='password'>Password</Label>
                                     <Input type='password' name='password' id='password' onChange={this.onInputChange} value={this.state.password} className='form-control-lg input-control' placeholder='******'/>
                                 </FormGroup>
                                 <Button className='btn-form'>Submit</Button>
-                                <Link to='/signin' className='already-member'>I am already a member</Link>
+                                <Link to='/signup' className='already-member'>Want to register with Us</Link>
                             </Form>
                         </div>
                     </div>
@@ -80,5 +64,4 @@ class SignupFirst extends React.Component {
     }
 }
 
-
-export default SignupFirst
+export default Signin
