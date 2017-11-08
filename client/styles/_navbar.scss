@@ -1,0 +1,85 @@
+$color-1: #25283D; // YANKEES BLUE
+$color-2: #8F3985; // PLUM
+$color-3: #ffffff; // WHITE
+$color-4: #ECF0F1; // ANTI-FLASH WHITE
+
+// breakpoints
+
+$S:     480px;
+$M:     768px;
+$L:     1024px;
+
+
+@mixin MQ($canvas) {
+  @if $canvas == S {
+   @media only screen and (min-width: $S) { @content; }
+  }
+  @else if $canvas == M {
+   @media only screen and (min-width: $M) { @content; }
+  }
+  @else if $canvas == L {
+   @media only screen and (min-width: $L) { @content; }
+  }
+}
+
+@mixin clearfix {
+  &::after {
+    clear: both;
+    content: "";
+    display: block;
+  }
+}
+
+.cd-auto-hide-header {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    left: 0;
+	width: 100%;
+    height: 80px;
+	background-color: $color-1;
+	/* Force Hardware Acceleration */
+	transform: translateZ(0);
+	transition: transform .5s;
+    //
+    ul, li, a {
+        height: 100%;
+    }
+    //
+    ul {
+        padding: 0 5px;
+        @include clearfix;
+        overflow-x: auto;
+    }
+    li {
+        display: inline-block;
+        float: left;
+        flex-shrink: 0;
+        &:last-of-type {
+            padding-right: 100px !important;
+        }
+    }
+    a {
+        display: inline-block;
+        color: $color-3;
+        opacity: .7;
+        line-height: 50px;
+        padding: .5em 1em;
+        font-size: 1.3rem;
+        &:hover, &:active {
+            color: $color-3;
+        }
+    }
+}
+
+.cd-navigation {
+    li {
+        &:last-of-type {
+            margin-right: 70px;
+        }
+
+    }
+}
+.logo {
+    margin-left: 70px;
+}
