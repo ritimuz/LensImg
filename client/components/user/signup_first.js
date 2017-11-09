@@ -1,7 +1,9 @@
 import { Meteor } from 'meteor/meteor'
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom'
 import { withTracker } from 'meteor/react-meteor-data';
+import { Bert } from 'meteor/themeteorchef:bert'
 import Profile from '../../../imports/collections/index'
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
@@ -9,7 +11,41 @@ class SignupFirst extends React.Component {
     state = {
         email: '',
         username: '',
-        password: ''
+        password: '',
+        usernameError: null,
+        emailError: null
+    }
+    onInputBlur = (event) => {
+        Meteor.call('findUsername', this.state.username, (error, result) => {
+            if(!error) {
+                if(!result) {
+                    // username is not available with us
+                    this.setState({
+                        usernameError: 'Username is already taken'
+                    })
+                } else {
+                    this.setState({
+                        usernameError: ''
+                    })
+                }
+            }
+        })
+    }
+    onEmailBlur = (event) => {
+        Meteor.call('findEmail', this.state.email, (error, result) => {
+            if(!error) {
+                if(!result) {
+                    // username is not available with us
+                    this.setState({
+                        emailError: 'Email is already registered with us'
+                    })
+                } else {
+                    this.setState({
+                        emailError: ''
+                    })
+                }
+            }
+        })
     }
     onInputChange = (event) => {
         this.setState({
@@ -20,14 +56,22 @@ class SignupFirst extends React.Component {
         event.preventDefault()
         Accounts.createUser(this.state, (error) => {
             if(error) {
-                console.log(err.message);
+                Bert.alert({
+                  title: 'Authentication Error',
+                  message: error.reason,
+                  type: 'danger',
+                  style: 'growl-top-right',
+                });
             } else {
-                this.setState({
-                    username: '',
-                    email: '',
-                    password: ''
+                Meteor.loginWithPassword(this.state.email, this.state.password, (error) => {
+                    if(!error) {
+                        this.setState({
+                            username: '',
+                            email: '',
+                            password: ''
+                        })
+                    }
                 })
-
             }
         })
     }
@@ -45,25 +89,19 @@ class SignupFirst extends React.Component {
                                 <h1 className="heading--primary">Welcome to LensImg.</h1>
                                 <h2 className="heading--secondary">Are you ready to join the LensImg?</h2>
                             </div>
-                            <div className="thumbnail__links">
-                                <ul className="list-inline m-b-0 text-center">
-                                    <li><a href="http://alexdevero.com/" target="_blank"><i className="fa fa-globe"></i></a></li>
-                                    <li><a href="https://www.behance.net/alexdevero" target="_blank"><i className="fa fa-behance"></i></a></li>
-                                    <li><a href="https://github.com/alexdevero" target="_blank"><i className="fa fa-github"></i></a></li>
-                                    <li><a href="https://twitter.com/alexdevero" target="_blank"><i className="fa fa-twitter"></i></a></li>
-                                </ul>
-                            </div>
                             <div className="signup__overlay"></div>
                         </div>
                         <div className='container__child signup__form col-md-6'>
-                            <Form onSubmit={this.onFormSubmit}>
+                            <Form onSubmit={this.onFormSubmit} autoComplete='off'>
                                 <FormGroup className="form-input-div">
                                     <Label for='email'>Email</Label>
-                                    <Input type='email' name='email' id='name' className='form-control-lg input-control' onChange={this.onInputChange} value={this.state.email} placeholder='Email'/>
+                                    <Input type='email' name='email' id='name' className='form-control-lg input-control' onChange={this.onInputChange} value={this.state.email} placeholder='Email' onBlur = {this.onEmailBlur}/>
+                                    <small className='avaliablity-error'>{this.state.emailError}</small>
                                 </FormGroup>
                                 <FormGroup>
                                     <Label for='username'>Username</Label>
-                                    <Input type='text' name='username' id='username' onChange={this.onInputChange} value={this.state.username} className='form-control-lg input-control' placeholder='Username'/>
+                                    <Input type='text' name='username' id='username' onChange={this.onInputChange} value={this.state.username} className='form-control-lg input-control' placeholder='Username' onBlur = {this.onInputBlur}/>
+                                    <small className='avaliablity-error'>{this.state.usernameError}</small>
                                 </FormGroup>
                                 <FormGroup>
                                     <Label for='password'>Password</Label>
