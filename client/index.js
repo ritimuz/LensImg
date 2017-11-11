@@ -17,11 +17,7 @@ import Signin from './components/user/signin'
 Meteor.startup(() => {
     ReactDOM.render(
         <Router>
-            <div>
-                <Route path='/' component={App} />
-                <Route path='/signup' component={SignupFirst} />
-                <Route path='/signin' component={Signin} />
-            </div>
+            <App />
         </Router>,
         document.getElementById('app')
     )

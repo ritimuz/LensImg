@@ -12,14 +12,11 @@ class Navbar extends Component {
         let Navlink
         if(!Meteor.userId()) {
             Navlink = (
-                <div>
-                    <li className="nav-item">
-                        <Link to='/signin' className='nav-link'>Signin</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link to='/signup' className='nav-link'>Signup</Link>
-                    </li>
-                </div>
+                    <div className="account-button">
+                        <li className="nav-item">
+                            <Link to='account' className='nav-link'>Account</Link>
+                        </li>
+                    </div>
             )
         } else {
             Navlink = (
